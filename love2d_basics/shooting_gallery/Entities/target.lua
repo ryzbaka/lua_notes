@@ -12,7 +12,7 @@ function Target.new(width, height)
 end
 
 function Target.draw(self)
-    love.graphics.circle("line", self.x, self.y, self.radius)
+    love.graphics.circle("fill", self.x, self.y, self.radius)
 end
 
 function Target.reposition(self)
