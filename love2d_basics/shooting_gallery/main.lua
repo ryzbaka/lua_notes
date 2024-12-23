@@ -14,7 +14,7 @@ function targetHit()
 end
 
 function love.load()
-    target = Target.new(love.graphics.getWidth(), love.graphics.getHeight())
+    target = Target.new()
     beep = love.audio.newSource("sounds/beep.wav", "stream")
 end
 
