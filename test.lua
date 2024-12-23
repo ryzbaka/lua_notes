@@ -6,8 +6,7 @@ local some_input = {3,2,1,4,5}
 -- table.sort(some_input) -- inplace sorting
 
 function sorted_copy(some_table)
-	--local table_copy = {unpack(some_table)}-- or table.unpack in Lua 5.2+
-	local table_copy = {table.unpack(some_table)}
+	table_copy ={unpack(some_table)}
 	table.sort(table_copy)
 	return table_copy
 end
