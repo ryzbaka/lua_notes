@@ -2,22 +2,22 @@ local Target = {}
 
 Target.__index = Target
 
-function Target.new(width, height)
+function Target.new()
     local self = setmetatable({}, Target)
-    self.x = math.random(0, width)
-    self.y = math.random(0, height)
     self.radius = 70
+    self.x = math.random(0, love.graphics.getWidth() - self.radius)
+    self.y = math.random(0, love.graphics.getHeight() - self.radius)
     self.score = 0
     return self
 end
 
 function Target.draw(self)
-    love.graphics.circle("fill", self.x, self.y, self.radius)
+    love.graphics.circle("line", self.x, self.y, self.radius)
 end
 
 function Target.reposition(self)
-    self.x = math.random(0, love.graphics.getWidth())
-    self.y = math.random(0, love.graphics.getHeight())
+    self.x = math.random(0, love.graphics.getWidth() - self.radius)
+    self.y = math.random(0, love.graphics.getHeight() - self.radius)
 end
 
 function Target.scoreUp(self)
