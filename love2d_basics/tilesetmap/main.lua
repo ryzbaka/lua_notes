@@ -1,5 +1,7 @@
 package.path = package.path .. ";../libraries/?.lua;../libraries/?/init.lua"
 
+DEBUG = false
+
 Player = require("Entities.Player")
 
 function love.load()
@@ -37,6 +39,8 @@ function love.draw()
     cam:detach()
 
     --DEBUG
-    love.graphics.print("X: " .. player.x, 0, 0)
-    love.graphics.print("Y: " .. player.y, 0, 100)
+    if DEBUG then
+        love.graphics.print("X: " .. player.x, 0, 0)
+        love.graphics.print("Y: " .. player.y, 0, 100)
+    end
 end
