@@ -25,9 +25,9 @@ function Player.new()
 end
 
 function Player:draw()
-    self.anim:draw(self.spriteSheet, self.x, self.y, nil, 4, 4, 16, 16) -- here scaling had to be set for both axes to prevent squishing
+    self.anim:draw(self.spriteSheet, self.x, self.y, nil, SCALE, SCALE, 16, 16) -- here scaling had to be set for both axes to prevent squishing
     if DEBUG then
-        love.graphics.circle("line", self.x, self.y, 20)
+        love.graphics.circle("line", self.x, self.y, SCALE * 5)
     end
 end
 

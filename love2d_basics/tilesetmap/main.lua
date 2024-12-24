@@ -1,6 +1,7 @@
 package.path = package.path .. ";../libraries/?.lua;../libraries/?/init.lua"
 
 DEBUG = false
+SCALE = 4
 
 Player = require("Entities.Player")
 
@@ -15,9 +16,29 @@ function love.load()
     player = Player.new()
 end
 
+function getDistance(x1, y1, x2, y2)
+    return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
+end
+
+function map(x, a, b, c, d)
+    return c + (((x - a) * (d - c)) / (b - a))
+end
+
 function love.update(dt)
     player:handleMovement(dt)
-    cam:lookAt(player.x, player.y)
+    local maxDistFromPlayer = 100
+    local mouseX = love.mouse.getX()
+    local mouseY = love.mouse.getY()
+
+    local camOffX = map(love.mouse.getX(), 0, love.graphics.getWidth(), -1 * maxDistFromPlayer, maxDistFromPlayer)
+    local camOffY = map(love.mouse.getY(), 0, love.graphics.getHeight(), -1 * maxDistFromPlayer, maxDistFromPlayer)
+
+    -- if getDistance(player.x,player.y,camPosX,camPosY) > then
+    --     -- distance from mouse position X to mouse is more than max dist
+
+    -- end
+
+    cam:lookAt(player.x + camOffX, player.y + camOffY)
     -- cam:lookAt(love.mouse:getX(), love.mouse:getY())
 
     --adjust camera bounds
@@ -34,8 +55,8 @@ function love.update(dt)
         cam.y = vp_height / 2
     end
 
-    local map_width = gameMap.width * gameMap.tilewidth * 4 -- have to account for scaling
-    local map_height = gameMap.height * gameMap.tileheight * 4
+    local map_width = gameMap.width * gameMap.tilewidth * SCALE -- have to account for scaling
+    local map_height = gameMap.height * gameMap.tileheight * SCALE
 
     --right bound
     if cam.x > (map_width - vp_width / 2) then
@@ -45,6 +66,12 @@ function love.update(dt)
     -- bottom bound
     if cam.y > (map_height - vp_height / 2) then
         cam.y = (map_height - vp_height / 2)
+    end
+end
+
+function love.keypressed(key)
+    if key == "p" then
+        DEBUG = not DEBUG
     end
 end
 
@@ -58,7 +85,7 @@ function love.draw()
     cam:attach()
 
     love.graphics.push()
-    love.graphics.scale(4, 4)
+    love.graphics.scale(SCALE, SCALE)
     gameMap:drawLayer(gameMap.layers["grass"])
     gameMap:drawLayer(gameMap.layers["Tile Layer 2"])
     gameMap:drawLayer(gameMap.layers["Tile Layer 3"])
@@ -71,5 +98,7 @@ function love.draw()
     if DEBUG then
         love.graphics.print("X: " .. player.x, 0, 0)
         love.graphics.print("Y: " .. player.y, 0, 100)
+        love.graphics.print("mouse X: " .. love.mouse.getX() .. " mouse Y: " .. love.mouse.getY(), 0, 150)
+        love.graphics.print("cam X: " .. cam.x .. " cam Y: " .. cam.y, 0, 200)
     end
 end
