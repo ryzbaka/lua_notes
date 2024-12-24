@@ -1,1 +1,1 @@
-![screenshot](image.png)
+![screenshot](love2d_basics/image.png)
