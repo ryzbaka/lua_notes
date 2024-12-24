@@ -4,13 +4,13 @@ DEBUG = false
 SCALE = 4
 
 Player = require("Entities.Player")
+DebugConsole = require("utils.Debug")
 
 function love.load()
-    -- anim8 = require("anim8") -- Access ../libraries/anim8.lua
     camera = require("camera")
     cam = camera()
 
-    sti = require("sti") -- Access ../libraries/sti/init.lua
+    sti = require("sti")
     gameMap = sti("maps/test_forest.lua")
     love.graphics.setDefaultFilter("nearest", "nearest")
     player = Player.new()
@@ -33,17 +33,12 @@ function love.update(dt)
     local camOffX = map(love.mouse.getX(), 0, love.graphics.getWidth(), -1 * maxDistFromPlayer, maxDistFromPlayer)
     local camOffY = map(love.mouse.getY(), 0, love.graphics.getHeight(), -1 * maxDistFromPlayer, maxDistFromPlayer)
 
-    -- if getDistance(player.x,player.y,camPosX,camPosY) > then
-    --     -- distance from mouse position X to mouse is more than max dist
-
-    -- end
 
     cam:lookAt(player.x + camOffX, player.y + camOffY)
-    -- cam:lookAt(love.mouse:getX(), love.mouse:getY())
 
     --adjust camera bounds
-    local vp_width = love.graphics.getWidth()
-    local vp_height = love.graphics.getHeight()
+    local vp_width = love.graphics.getWidth()   -- viewport width
+    local vp_height = love.graphics.getHeight() -- viewport height
 
     --left bound
     if cam.x < vp_width / 2 then
@@ -80,8 +75,6 @@ function love.draw()
     -- gameMap:draw(0, 0, 5, 5) -- Draw the map
     -- player:draw()
 
-
-
     cam:attach()
 
     love.graphics.push()
@@ -95,10 +88,5 @@ function love.draw()
     cam:detach()
 
     --DEBUG
-    if DEBUG then
-        love.graphics.print("X: " .. player.x, 0, 0)
-        love.graphics.print("Y: " .. player.y, 0, 100)
-        love.graphics.print("mouse X: " .. love.mouse.getX() .. " mouse Y: " .. love.mouse.getY(), 0, 150)
-        love.graphics.print("cam X: " .. cam.x .. " cam Y: " .. cam.y, 0, 200)
-    end
+    DebugConsole()
 end
