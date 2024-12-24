@@ -12,7 +12,7 @@ function Player.new()
     self.spriteSheet = love.graphics.newImage("sprites/Player.png")
     self.grid = anim8.newGrid(32, 32, self.spriteSheet:getWidth(), self.spriteSheet:getHeight())
     --define animations
-    self.idleAnimation = anim8.newAnimation(self.grid("1-10", 1), self.animationSpeed)
+    self.idleAnimation = anim8.newAnimation(self.grid("1-10", 1), self.animationSpeed * 2)
     self.rightAnimation = anim8.newAnimation(self.grid("1-10", 3), self.animationSpeed)
     self.leftAnimation = self.rightAnimation:clone():flipH()
     self.idleAnimationLeft = self.idleAnimation:clone():flipH()

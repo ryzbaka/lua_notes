@@ -18,6 +18,33 @@ end
 function love.update(dt)
     player:handleMovement(dt)
     cam:lookAt(player.x, player.y)
+
+    --adjust camera bounds
+    local vp_width = love.graphics.getWidth()
+    local vp_height = love.graphics.getHeight()
+
+    --left bound
+    if cam.x < vp_width / 2 then
+        cam.x = vp_width / 2
+    end
+
+    --top bound
+    if cam.y < vp_height / 2 then
+        cam.y = vp_height / 2
+    end
+
+    local map_width = gameMap.width * gameMap.tilewidth * 4 -- have to account for scaling
+    local map_height = gameMap.height * gameMap.tileheight * 4
+
+    --right bound
+    if cam.x > (map_width - vp_width / 2) then
+        cam.x = (map_width - vp_width / 2)
+    end
+
+    -- bottom bound
+    if cam.y > (map_height - vp_height / 2) then
+        cam.y = (map_height - vp_height / 2)
+    end
 end
 
 function love.draw()
@@ -28,6 +55,7 @@ function love.draw()
 
 
     cam:attach()
+
     love.graphics.push()
     love.graphics.scale(4, 4)
     gameMap:drawLayer(gameMap.layers["grass"])
