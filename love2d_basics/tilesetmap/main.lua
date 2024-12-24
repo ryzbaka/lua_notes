@@ -17,7 +17,8 @@ end
 
 function love.update(dt)
     player:handleMovement(dt)
-    cam:lookAt(player.x, player.y)
+    -- cam:lookAt(player.x, player.y)
+    cam:lookAt(love.mouse:getX(), love.mouse:getY())
 
     --adjust camera bounds
     local vp_width = love.graphics.getWidth()
