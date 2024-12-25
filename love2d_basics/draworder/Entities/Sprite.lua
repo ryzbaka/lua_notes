@@ -2,23 +2,26 @@ local Class = require("middleclass")
 
 local Sprite = Class("Sprite")
 
-Sprite.instances = {} -- Still keeping this to hold all sprite instances globally
+Sprite.instances = {}
 
 function Sprite:initialize(x, y, color)
     self.x = x
     self.y = y
     self.color = color
-    table.insert(Sprite.instances, self) -- Add the sprite to the global list
+    table.insert(Sprite.instances, self)
 end
 
--- Sorting function
+-- maybe add a destructor here to keep the instances table synced
+
 function sortingFunction(el1, el2)
-    return el1.y < el2.y -- Sort so lower y values (higher on screen) come first
+    return el1.y < el2.y -- flickering when - instead of < used
 end
 
--- Sort instances by Y-coordinate
 function Sprite:sortByY()
-    table.sort(Sprite.instances, sortingFunction)
+    --local instances_copy = { unpack(self.instances) }
+    --table.sort(instances_copy, sortingFunction)
+    --self.instances = instances_copy
+    table.sort(self.instances, sortingFunction)
 end
 
 function Sprite:draw()
@@ -27,8 +30,8 @@ function Sprite:draw()
 end
 
 function Sprite:drawAll()
-    -- Note: Don't sort here! Sort in the update loop to avoid unnecessary sorting each frame
-    for _, instance in ipairs(Sprite.instances) do
+    Sprite:sortByY()
+    for i, instance in ipairs(Sprite.instances) do
         instance:draw()
     end
 end

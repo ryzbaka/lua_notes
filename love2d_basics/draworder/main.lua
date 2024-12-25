@@ -14,10 +14,10 @@ end
 function love.update()
     -- Call the sort function here to keep the draw order correct
     player:handleMovement()
-    Sprite:sortByY() -- Sort all sprites by Y-coordinate after the player moves
 end
 
 function love.draw()
+    -- Sprite:sortByY() -- Sort all sprites by Y-coordinate after the player moves
     Sprite:drawAll() -- Draw all sprites in the correct order
     love.graphics.print(tostring(love.timer.getFPS()), 0, 100)
 end
